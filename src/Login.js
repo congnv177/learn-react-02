@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.css"
-import Category from "./Category";
 import ReactDOM from "react-dom";
+import Category from "./Category";
 
 const Form = ({onSubmit}) => {
     const usernameRef = React.useRef();

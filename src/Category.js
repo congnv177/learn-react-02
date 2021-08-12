@@ -1,6 +1,6 @@
-import React from "react";
-import ReactPaginate from "react-paginate";
+import React, {useEffect, useState} from "react";
 import './Category.css';
+import Pagination from "./components/Pagination";
 
 const requestOptions = {
     method: 'GET',
@@ -17,98 +17,64 @@ export function authHeader() {
     };
 }
 
-class CategoryItem extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoader: false,
-            categories: [],
-            metadata: null,
-            itemById: null,
-            page: 1,
-            limit: 5,
-            pageCount: 0
-        };
-    }
+const CategoryList = () => {
+    const [categories, setCategories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalResult, setTotalResult] = useState(1);
+    const [limit] = useState(10);
 
-    componentDidMount(pageOf) {
-        const page = pageOf == null ? this.state.page : pageOf;
-        const limit = this.state.limit;
-        fetch(`http://localhost:8080/admin/categories?page=${page}&limit=${limit}`, requestOptions)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        categories: result.categories,
-                        metadata: result.metadata,
-                        pageCount: Math.floor(result.metadata.total / result.metadata.limit)
-                            + (Math.floor(result.metadata.total % result.metadata.limit) > 0 ? 1 : 0)
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
-    }
-
-    handlePageClick = (event) => {
-        this.componentDidMount(event.selected + 1);
-    }
-
-    render() {
-        const { error, isLoaded } = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return <div>Loading...</div>;
-        } else {
-            return (
-                <div style={{marginLeft: '10em'}} >
-                    <table className='Table'>
-                        <thead>
-                        <tr>
-                            <th className='headerIndex'>STT</th>
-                            <th className='headerName'>Tên</th>
-                            <th className='headerDescription'>Mô tả</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.categories.map((item, index) => (
-                                <tr key={item.id}>
-                                    <td className='lineIndex'>{item.id}</td>
-                                    <td className='lineName'>{item.name}</td>
-                                    <td className='lineDescription'>{item.description}</td>
-                                </tr>
-                            ))
-                        }
-                        </tbody>
-                    </table>
-                    <ReactPaginate
-                        previousLabel={'prev'}
-                        nextLabel={'next'}
-                        pageCount={this.state.pageCount}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={'pagination'}
-                        activeClassName={'active'}
-                    />
-                </div>
-            );
+    useEffect(() => {
+        // fetch(`http://localhost:8080/admin/categories?page=${currentPage}&limit=${limit}`, requestOptions)
+        //    .then(res => res.json())
+        //    .then(
+        //        (result) => {
+        //            setCategories(result.categories);
+        //            setTotalResult(result.metadata.total)
+        //        }
+        //    )
+        async function fetchMyAPI() {
+            let response = await fetch(`http://localhost:8080/admin/categories?page=${currentPage}&limit=${limit}`, requestOptions)
+            response = await response.json()
+            setCategories(response.categories)
+            setTotalResult(response.metadata.total)
         }
-    }
-}
+        fetchMyAPI()
+    }, [currentPage]);
 
-class CategoryList extends React.Component {
-    render() {
-        return <div>
-            <CategoryItem/>
+    // Change page
+    function handleClick(pageNumber) {
+        setCurrentPage(pageNumber);
+    }
+
+    return (
+        <div>
+            <table className='Table'>
+                <thead>
+                <tr>
+                    <th className='headerIndex'>STT</th>
+                    <th className='headerName'>Tên</th>
+                    <th className='headerDescription'>Mô tả</th>
+                </tr>
+                </thead>
+                <tbody>
+                {
+                    categories.map((item, index) => (
+                        <tr key={item.id}>
+                            <td className='lineIndex'>{item.id}</td>
+                            <td className='lineName'>{item.name}</td>
+                            <td className='lineDescription'>{item.description}</td>
+                        </tr>
+                    ))
+                }
+                </tbody>
+            </table>
+            <Pagination
+                limit={limit}
+                totalPosts={totalResult}
+                handleClick={handleClick}
+            />
         </div>
-    }
-}
+    );
+};
 
-export default CategoryList
+export default (CategoryList);
