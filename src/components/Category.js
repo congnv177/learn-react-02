@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import './Category.css';
-import Pagination from "./components/Pagination";
+import './css/Category.css';
+import Pagination from "./Pagination";
 
 const requestOptions = {
     method: 'GET',
@@ -48,6 +48,10 @@ const CategoryList = () => {
 
     return (
         <div>
+            <div>
+                <button className='login--form-btn' type="submit">
+                    Tạo mới</button>
+            </div>
             <table className='Table'>
                 <thead>
                 <tr>
