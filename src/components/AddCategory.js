@@ -3,7 +3,6 @@ import "./css/AddCategory.css";
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import Category from "./Category";
-import Login from "./Login";
 
 const AddCategory = () => {
     const [values, setValues] = useState({
@@ -11,8 +10,6 @@ const AddCategory = () => {
         code: '',
         description: '',
     });
-
-    const [loading, setLoading] = useState(false);
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -35,8 +32,6 @@ const AddCategory = () => {
 
             })
     }
-
-    const showLoading = () => (loading ? <div className="alert alert-info">Loading...</div> : '');
 
     const handleChange = name => e => {
         setValues({ ...values, [name]: e.target.value });
