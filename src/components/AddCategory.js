@@ -3,6 +3,7 @@ import "./css/AddCategory.css";
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import Category from "./Category";
+import Login from "./Login";
 
 const AddCategory = () => {
     const [values, setValues] = useState({
@@ -44,6 +45,13 @@ const AddCategory = () => {
         );
     }
 
+    const handleLogout = () => {
+        ReactDOM.render(
+            <Login />,
+            document.getElementById('root')
+        );
+    }
+
     return (
         <div className="category--form">
             <div className='add-category--form' >
@@ -59,6 +67,9 @@ const AddCategory = () => {
                     <button className='login--form-btn' type="submit" onClick={handleSave}>Lưu</button>
                     <button className='login--form-btn' type="submit" onClick={handleBack}>Thoát</button>
                 </div>
+            </div>
+            <div className='logout-action--btn'>
+                <button className='login--form-btn' type="submit" onClick={handleLogout}>Đăng xuất</button>
             </div>
         </div>
     )
