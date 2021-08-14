@@ -4,6 +4,7 @@ import Pagination from "./Pagination";
 import AddCategory from "./AddCategory";
 import ReactDOM from "react-dom";
 import Login from "./Login";
+import DetailCategory from "./DetailCategory";
 
 const requestOptions = {
     method: 'GET',
@@ -63,6 +64,21 @@ const CategoryList = () => {
         );
     }
 
+    // const handleViewDetail = id => e => {
+    //     let id = e.target.value;
+    //     ReactDOM.render(
+    //         <DetailCategory id/>,
+    //         document.getElementById('root')
+    //     );
+    // }
+
+    function handleViewDetail(e, id){
+        ReactDOM.render(
+            <DetailCategory id={id} />,
+            document.getElementById('root')
+        );
+    }
+
     return (
         <div>
             <div className='action--btn'>
@@ -82,7 +98,7 @@ const CategoryList = () => {
                 <tbody>
                 {
                     categories.map((item, index) => (
-                        <tr key={item.id}>
+                        <tr key={item.id} onClick={(e) => handleViewDetail(e, item.id)}>
                             <td className='lineIndex'>{item.id}</td>
                             <td className='lineName'>{item.name}</td>
                             <td className='lineDescription'>{item.description}</td>
