@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from "react";
 import './css/Category.css';
 import Pagination from "./Pagination";
+import AddCategory from "./AddCategory";
+import ReactDOM from "react-dom";
+import Login from "./Login";
 
 const requestOptions = {
     method: 'GET',
@@ -46,11 +49,27 @@ const CategoryList = () => {
         setCurrentPage(pageNumber);
     }
 
+    const handleAddCategory = () => {
+        ReactDOM.render(
+            <AddCategory />,
+            document.getElementById('root')
+        );
+    }
+
+    const handleLogout = () => {
+        ReactDOM.render(
+            <Login />,
+            document.getElementById('root')
+        );
+    }
+
     return (
         <div>
-            <div>
-                <button className='login--form-btn' type="submit">
+            <div className='action--btn'>
+                <button className='login--form-btn' onClick={handleAddCategory}>
                     Tạo mới</button>
+                <button className='login--form-btn' onClick={handleLogout}>
+                    Đăng xuất</button>
             </div>
             <table className='Table'>
                 <thead>

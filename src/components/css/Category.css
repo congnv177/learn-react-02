@@ -5,6 +5,11 @@
     margin-top: 50px;
 }
 
+.action--btn {
+    display: flex;
+    margin-top: 200px;
+}
+
 .headerName {
     width: 100px;
     text-align: center;
