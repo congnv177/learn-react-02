@@ -2,6 +2,7 @@ import React from "react";
 import "./css/Login.css"
 import ReactDOM from "react-dom";
 import Category from "./Category";
+import axios from "axios";
 
 const Form = ({onSubmit}) => {
     const usernameRef = React.useRef();
@@ -37,12 +38,26 @@ const Login = () => {
             alert("Tài khoản phải lớn hơn hoặc bằng 6 ký tự");
         } else if (data.password == null || data.password.length < 6) {
             alert("Mật khẩu phải lớn hơn hoặc bằng 6 ký tự");
-        } else {
-            ReactDOM.render(
-                <Category />,
-                document.getElementById('root')
-            );
         }
+
+        axios.post('http://localhost:8080/admin/accounts/login', {
+            username: data.username,
+            password: data.password,
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+                "Access-Control-Allow-Credentials": 'true'
+            }
+        })
+            .then(user => {
+                ReactDOM.render(
+                    <Category />,
+                    document.getElementById('root')
+                );
+            })
+            .catch(error => {
+                alert("Thông tin xác thực không chính xác");
+            });
     };
     
     return (
