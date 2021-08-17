@@ -1,11 +1,13 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import "./css/AddCategory.css";
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import Category from "./Category";
 import Login from "./Login";
+import UserContext from "../UserContext";
 
 const AddCategory = () => {
+    const user = useContext(UserContext);
     const [values, setValues] = useState({
         name: '',
         code: '',
@@ -20,12 +22,15 @@ const AddCategory = () => {
         await axios.post('http://localhost:8080/admin/categories', category, {
                 headers: {
                     'Access-Control-Allow-Origin': 'http://localhost:8080',
-                    "Access-Control-Allow-Credentials": 'true'
+                    "Access-Control-Allow-Credentials": 'true',
+                    'Authorization': `Bearer ${user.accessToken}`
                 }
             })
             .then((response) => {
                 ReactDOM.render(
-                    <Category />,
+                    <UserContext.Provider value={user}>
+                        <Category />
+                    </UserContext.Provider>,
                     document.getElementById('root')
                 );
             })
@@ -40,7 +45,9 @@ const AddCategory = () => {
 
     const handleBack = () => {
         ReactDOM.render(
-            <Category />,
+            <UserContext.Provider value={user}>
+                <Category />
+            </UserContext.Provider>,
             document.getElementById('root')
         );
     }

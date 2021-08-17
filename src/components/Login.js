@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useContext, useState} from "react";
 import "./css/Login.css"
 import ReactDOM from "react-dom";
 import Category from "./Category";
 import axios from "axios";
+import UserContext from "../UserContext";
 
 const Form = ({onSubmit}) => {
     const usernameRef = React.useRef();
@@ -49,9 +50,11 @@ const Login = () => {
                 "Access-Control-Allow-Credentials": 'true'
             }
         })
-            .then(user => {
+            .then(result => {
                 ReactDOM.render(
-                    <Category />,
+                    <UserContext.Provider value={result.data}>
+                        <Category />
+                    </UserContext.Provider>,
                     document.getElementById('root')
                 );
             })

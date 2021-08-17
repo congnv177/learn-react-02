@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43a86b03-5793-45d2-a3fe-928c783bcbf3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UserContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddCategory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DetailCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DetailCategory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +78,8 @@
       <workItem from="1628927821397" duration="7480000" />
       <workItem from="1628955100346" duration="2989000" />
       <workItem from="1628998296210" duration="5732000" />
+      <workItem from="1629174482421" duration="22000" />
+      <workItem from="1629210478738" duration="1243000" />
     </task>
     <servers />
   </component>

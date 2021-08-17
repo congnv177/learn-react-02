@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './css/Category.css';
 import Pagination from "./Pagination";
 import AddCategory from "./AddCategory";
 import ReactDOM from "react-dom";
 import Login from "./Login";
 import DetailCategory from "./DetailCategory";
+import UserContext from "../UserContext";
 
 const requestOptions = {
     method: 'GET',
@@ -22,10 +23,17 @@ export function authHeader() {
 }
 
 const CategoryList = () => {
+    const user = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalResult, setTotalResult] = useState(1);
     const [limit] = useState(10);
+    const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
+        "Access-Control-Allow-Credentials": 'true',
+        'Authorization': `Bearer ${user.accessToken}`
+    }
 
     useEffect(() => {
         // fetch(`http://localhost:8080/admin/categories?page=${currentPage}&limit=${limit}`, requestOptions)
@@ -37,7 +45,7 @@ const CategoryList = () => {
         //        }
         //    )
         async function fetchMyAPI() {
-            let response = await fetch(`http://localhost:8080/admin/categories?page=${currentPage}&limit=${limit}`, requestOptions)
+            let response = await fetch(`http://localhost:8080/admin/categories?page=${currentPage}&limit=${limit}`, { headers })
             response = await response.json()
             setCategories(response.categories)
             setTotalResult(response.metadata.total)
@@ -52,7 +60,9 @@ const CategoryList = () => {
 
     const handleAddCategory = () => {
         ReactDOM.render(
-            <AddCategory />,
+            <UserContext.Provider value={user}>
+                <AddCategory />
+            </UserContext.Provider>,
             document.getElementById('root')
         );
     }
@@ -74,7 +84,9 @@ const CategoryList = () => {
 
     function handleViewDetail(e, id){
         ReactDOM.render(
-            <DetailCategory id={id} />,
+            <UserContext.Provider value={user}>
+                <DetailCategory id={id} />
+            </UserContext.Provider>,
             document.getElementById('root')
         );
     }

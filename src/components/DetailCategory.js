@@ -1,31 +1,27 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import Category from "./Category";
 import axios from "axios";
 import './css/DetailCategory.css';
 import Login from "./Login";
-
-const requestOptions = {
-    method: 'GET',
-    headers: authHeader(),
-};
-
-export function authHeader() {
-    return {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',
-        "Access-Control-Allow-Credentials": 'true'
-    };
-}
+import UserContext from "../UserContext";
 
 const DetailCategory = ({ id }) => {
+    const user = useContext(UserContext);
     const [category, setCategory] = useState({
         name: '',
         code: '',
         description: '',
     });
+    const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
+        "Access-Control-Allow-Credentials": 'true',
+        'Authorization': `Bearer ${user.accessToken}`,
+    }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/admin/categories/${id}`, requestOptions)
+        fetch(`http://localhost:8080/admin/categories/${id}`, { headers })
            .then(res => res.json())
            .then(
                (result) => {
@@ -36,7 +32,9 @@ const DetailCategory = ({ id }) => {
 
     const handleBack = () => {
         ReactDOM.render(
-            <Category />,
+            <UserContext.Provider value={user}>
+                <Category />
+            </UserContext.Provider>,
             document.getElementById('root')
         );
     }
@@ -53,12 +51,15 @@ const DetailCategory = ({ id }) => {
         await axios.put(`http://localhost:8080/admin/categories/${id}`, categoryUpdate, {
             headers: {
                 'Access-Control-Allow-Origin': 'http://localhost:8080',
-                "Access-Control-Allow-Credentials": 'true'
+                "Access-Control-Allow-Credentials": 'true',
+                'Authorization': `Bearer ${user.accessToken}`,
             }
         })
         .then((response) => {
             ReactDOM.render(
-                <Category />,
+                <UserContext.Provider value={user}>
+                    <Category />
+                </UserContext.Provider>,
                 document.getElementById('root')
             );
         })
